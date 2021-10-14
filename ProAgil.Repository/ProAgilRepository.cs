@@ -84,9 +84,7 @@ namespace ProAgil.Repository
             }
 
             query = query
-                .OrderByDescending(c => c.DataEvento)
                 .Where(c => c.Id == EventoId);
-
             return await query.FirstOrDefaultAsync();
         }
 
