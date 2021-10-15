@@ -1,3 +1,4 @@
+<app-titulo [titulo] = 'titulo'></app-titulo>
 <div class="d-flex justify-content-between">
 <div class="form-inline mr-auto" action="">
   <div class="form-group mb-2">
@@ -41,7 +42,7 @@
       <td>{{evento.id}}</td>
       <td>{{evento.tema}}</td>
       <td>{{evento.local}}</td>
-      <td>{{evento.dataEvento | DateTimeFormatPipe}}</td>
+      <td>{{evento.dataEvento}}</td>
       <td>{{evento.qtdPessoas}}</td>
       <td>
         <div *ngIf="!evento.lotes.length">
@@ -64,7 +65,7 @@
       </td>
     </tr>
   </tbody>
-  <tfoot *ngIf="!eventos.length">
+  <tfoot *ngIf="!eventos">
     <tr>
       <td colspan="7" class="text-center">
         <h4>
@@ -119,13 +120,17 @@
             </div>
             <div class="form-group col-md-4">
               <label>Data e Hora</label>
-              <input type="text" class="form-control" bsDatepicker
-                [bsConfig]="{ dateInputFormat : 'DD/MM/YYYY hh:mm a'}" [ngClass]="{'is-invalid': registerForm.get('dataEvento')!.errors 
-        && registerForm.get('dataEvento')!.touched}" formControlName="dataEvento" placeholder="">
+              <input type="text" class="form-control" 
+              bsDatepicker
+              [bsConfig]="{ dateInputFormat : 'DD/MM/YYYY hh:mm a' }"
+              [ngClass]="{'is-invalid': registerForm.get('dataEvento')!.errors 
+              && registerForm.get('dataEvento')!.touched}"
+              formControlName="dataEvento" placeholder="">
               <div *ngIf="registerForm.get('dataEvento')!.hasError('required')
-        && registerForm.get('dataEvento')!.touched" class="invalid-feedback">
-                Data e hora é obrigatório.
-              </div>
+              && registerForm.get('dataEvento')!.touched"
+              class="invalid-feedback">
+              Data e hora é obrigatório.
+            </div>
             </div>
           </div>
           <div class="form-row">
