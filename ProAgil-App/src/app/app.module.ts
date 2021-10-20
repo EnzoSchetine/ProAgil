@@ -6,9 +6,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker'
 import { ToastrModule } from 'ngx-toastr'
+import { NgxMaskModule } from 'ngx-mask'
+import { NgxCurrencyModule } from 'ngx-currency'
 
 import { EventoService } from './_services/evento.service';
 
@@ -25,6 +28,7 @@ import { LoginComponent } from './user/login/login.component';
 import { RegistrationComponent } from './user/registration/registration.component';
 import { UserComponent } from './user/user.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { EventoEditComponent } from './eventos/eventoEdit/eventoEdit.component';
 
 @NgModule({
   declarations: [						
@@ -38,6 +42,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     UserComponent,
     LoginComponent,
     RegistrationComponent,
+    EventoEditComponent,
     DateTimeFormatPipePipe
    ],
   imports: [
@@ -47,9 +52,10 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    NgxCurrencyModule,
     ToastrModule.forRoot(
       {
-        timeOut: 10000,
+        timeOut: 2500,
         positionClass: 'toast-bottom-right',
         preventDuplicates: true
       }
@@ -58,6 +64,8 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     BsDropdownModule.forRoot(),
     BrowserAnimationsModule,
     ModalModule.forRoot(),
+    TabsModule.forRoot(),
+    NgxMaskModule.forRoot(),
     TooltipModule.forRoot()
   ],
   providers: [

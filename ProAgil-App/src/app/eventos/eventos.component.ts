@@ -150,6 +150,7 @@ export class EventosComponent implements OnInit {
               this.toastr.error(`Erro ao editar ${error}`);
             });
       }
+      this.getEventos();
     }
   }
   
@@ -172,6 +173,7 @@ export class EventosComponent implements OnInit {
   }
 
   getEventos(): void{
+    this.dataAtual = new Date().getMilliseconds().toString();
     this.eventoService.getAllEvento().subscribe(
       (_eventos: Evento[]) => {
         this.eventos = _eventos;

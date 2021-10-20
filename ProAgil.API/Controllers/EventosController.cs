@@ -43,7 +43,7 @@ namespace ProAgil.API.Controllers
         }
 
         [HttpPost("upload")]
-        public async Task<IActionResult> Upload()
+        public IActionResult Upload()
         {
             try
             {
@@ -119,26 +119,43 @@ namespace ProAgil.API.Controllers
             return BadRequest();
         }
 
-        [HttpPut("{EventoId}")]
+               [HttpPut("{EventoId}")]
         public async Task<IActionResult> Put(int EventoId, EventoDto model)
         {
             try
             {
                 var evento = await _repo.GetEventoAsyncById(EventoId, false);
-                if(evento == null){
-                    return NotFound();
-                }
+                if (evento == null) return NotFound();
+
+                var idLotes = new List<int>();
+                var idRedeSociais = new List<int>();
+
+                model.Lotes.ForEach(item => idLotes.Add(item.Id));
+                model.RedeSociais.ForEach(item => idRedeSociais.Add(item.Id));
+
+                var lotes = evento.Lotes.Where(
+                    lote => !idLotes.Contains(lote.Id)
+                ).ToArray();
+
+                var redeSociais = evento.RedeSociais.Where(
+                    rede => !idLotes.Contains(rede.Id)
+                ).ToArray();
+
+                if (lotes.Length > 0) _repo.DeleteRange(lotes);
+                if (redeSociais.Length > 0) _repo.DeleteRange(redeSociais);
+
                 _mapper.Map(model, evento);
+
                 _repo.Update(evento);
-                
-                if(await _repo.SaveChangesAsync())
+
+                if (await _repo.SaveChangesAsync())
                 {
-                    return Created($"/api/evento/{model.Id}",_mapper.Map<EventoDto>(evento));
+                    return Created($"/api/eventos/{model.Id}", _mapper.Map<EventoDto>(evento));
                 }
             }
-            catch(System.Exception e)
+            catch (System.Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Erro aqui" + e);
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco Dados Falhou " + ex.Message);
             }
             return BadRequest();
         }
